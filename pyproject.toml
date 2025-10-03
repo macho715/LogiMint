@@ -1,0 +1,50 @@
+[tool.black]
+line-length = 100
+skip-string-normalization = true
+exclude = '''
+/(hvdc \(1\)|hvdc_refactor_s1s2 \(1\)|tests \(1\)|tools \(1\)|.*\(1\)\.py)$
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip = [
+  "hvdc (1)",
+  "hvdc_refactor_s1s2 (1)",
+  "tests (1)",
+  "tools (1)",
+  "run_all_scripts (1).py",
+  "folder_title_mapper (1).py",
+  "comprehensive_email_mapper (1).py",
+  "hvdc_cargo_tracking_system (1).py",
+  "create_complete_email_excel (1).py",
+  "email_folder_scanner (1).py",
+  "email_ontology_mapper (1).py",
+  "monitor_scan_progress (1).py",
+  "analysis_summary_report (1).py",
+  "simple_folder_analyzer (1).py",
+  "update_email_pattern_rules (1).py",
+  "setup (1).py",
+  "run_scan (1).py",
+]
+skip_glob = ["* (1).py"]
+known_first_party = ["config", "hvdc", "utils"]
+
+[tool.flake8]
+max-line-length = 100
+exclude = ["hvdc (1)", "hvdc_refactor_s1s2 (1)", "tests (1)", "tools (1)"]
+ignore = ["E203", "W503"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = [
+  "config",
+  "hvdc",
+  "utils",
+  "comprehensive_email_mapper.py",
+  "folder_title_mapper.py",
+  "hvdc_cargo_tracking_system.py",
+]
+exclude = '(^tests/)|\(1\)'
+ignore_missing_imports = true

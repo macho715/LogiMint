@@ -62,23 +62,32 @@ pip install -r requirements.txt
 
 ### 3. 기본 실행
 ```bash
-# 폴더 스캔 및 이메일 분석
-python email_folder_scanner.py
+# 종합 이메일 요약 (JSON + JSONL 출력)
+python comprehensive_email_mapper.py --email-root ./emails --output out/summary.json
 
-# 진행상황 모니터링
-python monitor_scan_progress.py
+# 폴더 제목 매핑
+python folder_title_mapper.py --folder-root ./emails --output out/folder_mapping.json
 
-# 종합 분석 실행
-python comprehensive_email_mapper.py
+# 화물 추적 요약 (상태 엑셀 필요)
+python hvdc_cargo_tracking_system.py --status-file data/status.xlsx --output out/cargo_summary.json
 ```
+
+### 4. 환경 설정
+- `.env` 또는 환경 변수로 다음 값을 오버라이드할 수 있습니다.
+  - `HVDC_EMAIL_ROOT`: 기본 이메일 루트 경로
+  - `HVDC_LOG_DIR`: 로그 파일 저장 위치
+  - `HVDC_LOG_JSON`: `1` 설정 시 JSON 라인 로깅 사용
+  - `HVDC_ASYNC_BATCH_SIZE`: 이메일 파싱 비동기 배치 크기
+  - `HVDC_EXCEL_CHUNK_SIZE`: 엑셀 쓰기 시 청크 크기
+- 모든 경로/토글은 `config/settings.py`에서 중앙 관리됩니다.
 
 ## 📊 스크립트 상세 정보
 
 | 스크립트 | 크기 | 라인 수 | 기능 | 복잡도 |
 |---------|------|---------|------|--------|
-| **comprehensive_email_mapper.py** | 23KB | 556 | 종합 이메일 매핑 및 네트워크 시각화 | 🔴 복잡 |
-| **folder_title_mapper.py** | 21KB | 524 | 폴더 제목 기반 매핑 | 🔴 복잡 |
-| **hvdc_cargo_tracking_system.py** | 20KB | 497 | 화물 추적 시스템 | 🟡 중간 |
+| **comprehensive_email_mapper.py** | 8KB | 121 | 비동기 이메일 요약 매퍼 | 🟡 중간 |
+| **folder_title_mapper.py** | 4KB | 64 | 폴더 제목 기반 매핑 | 🟢 단순 |
+| **hvdc_cargo_tracking_system.py** | 12KB | 172 | 화물 추적 시스템 | 🟡 중간 |
 | **email_ontology_mapper.py** | 19KB | 440 | 온톨로지 매핑 | 🟡 중간 |
 | **email_folder_scanner.py** | 17KB | 434 | 폴더 스캔 | 🟡 중간 |
 | **create_complete_email_excel.py** | 15KB | 336 | Excel 보고서 생성 | 🟡 중간 |
@@ -90,11 +99,11 @@ python comprehensive_email_mapper.py
 ## 🔧 사용 방법
 
 ### 기본 워크플로우
-1. **데이터 수집**: `email_folder_scanner.py`로 이메일 데이터 추출
-2. **진행 모니터링**: `monitor_scan_progress.py`로 상태 확인
-3. **데이터 매핑**: `email_ontology_mapper.py`로 온톨로지 매핑
-4. **보고서 생성**: `create_complete_email_excel.py`로 Excel 보고서 생성
-5. **종합 분석**: `comprehensive_email_mapper.py`로 네트워크 분석
+1. **데이터 수집**: `utils/file_handler.py` 기반 스캐너로 이메일 경로를 수집합니다.
+2. **패턴 매핑**: `utils/pattern_matcher.py`가 케이스/벤더/사이트를 정규화합니다.
+3. **결과 요약**: `comprehensive_email_mapper.py` 비동기 파이프라인이 JSON/JSONL을 생성합니다.
+4. **폴더 맵**: `folder_title_mapper.py`가 폴더-케이스 매핑 JSON을 저장합니다.
+5. **화물 요약**: `hvdc_cargo_tracking_system.py`가 상태 엑셀을 집계해 요약 JSON을 생성합니다.
 
 ### 고급 사용법
 ```bash
@@ -110,22 +119,17 @@ python run_all_scripts.py
 
 ## 🧪 테스트
 
-### 단위 테스트 실행
+### 단위 테스트 및 품질 게이트
 ```bash
-# 전체 테스트 실행
-python -m pytest tests/
+# 전체 테스트 및 커버리지
+pytest -q
+coverage run -m pytest && coverage report
 
-# 특정 모듈 테스트
-python -m pytest tests/unit/test_regex_cases.py
-
-# 커버리지 포함 테스트
-python -m pytest --cov=hvdc tests/
-```
-
-### 스모크 테스트
-```bash
-# 기본 기능 검증
-python tools/smoke_extract.py
+# 코드 품질 게이트
+black --check .
+isort --check-only .
+flake8 .
+mypy --strict .
 ```
 
 ## 📈 성능 지표
