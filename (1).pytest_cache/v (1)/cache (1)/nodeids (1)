@@ -1,0 +1,8 @@
+[
+  "tests/unit/test_regex_cases.py::TestRegexPatterns::test_hvdc_adopt_pattern",
+  "tests/unit/test_regex_cases.py::TestRegexPatterns::test_hvdc_generic_pattern",
+  "tests/unit/test_regex_cases.py::TestRegexPatterns::test_jptw_grm_pattern",
+  "tests/unit/test_regex_cases.py::TestRegexPatterns::test_paren_any_pattern",
+  "tests/unit/test_regex_cases.py::TestRegexPatterns::test_prl_pattern",
+  "tests/unit/test_regex_cases.py::TestRegexPatterns::test_trailing_pattern"
+]

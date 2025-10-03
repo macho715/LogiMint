@@ -1,0 +1,4 @@
+{
+  "hvdc_refactor_s1s2/tests/unit/test_core_regex.py": true,
+  "hvdc_refactor_s1s2/tests/unit/test_extract_cases.py": true
+}

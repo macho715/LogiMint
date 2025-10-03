@@ -1,0 +1,10 @@
+[
+  "tests/unit/test_core_regex.py::test_hvdc_adopt_matches_sample",
+  "tests/unit/test_core_regex.py::test_jptw_grm_pair",
+  "tests/unit/test_core_regex.py::test_patterns_compile_once",
+  "tests/unit/test_core_regex.py::test_prl_with_parenthesis",
+  "tests/unit/test_extract_cases.py::test_extract_cases_basic",
+  "tests/unit/test_extract_cases.py::test_extract_cases_dedup",
+  "tests/unit/test_extract_cases.py::test_extract_cases_generic",
+  "tests/unit/test_extract_cases.py::test_extract_cases_prl"
+]
